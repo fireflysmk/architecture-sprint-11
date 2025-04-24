@@ -1,0 +1,53 @@
+@startuml Future_2.0_Container_Diagram
+!include <c4/C4_Container.puml>
+
+title Контейнерная диаграмма системы "Будущее 2.0" (через год)
+
+Person(admin, "Администратор", "Управляет системой, настраивает доступы")
+Person(doctor, "Врач", "Просматривает медицинские данные и аналитику")
+Person(analyst, "Бизнес-аналитик", "Строит отчеты через портал самообслуживания")
+Person(patient, "Пациент", "Просматривает свои медицинские данные и счета")
+
+System_Boundary(system, "Система Будущее 2.0") {
+    Container(portal, "Портал самообслуживания", "React/Node.js", "Предоставляет единый интерфейс для работы с данными, конструктор отчетов")
+    
+    Container(bi, "BI-сервис", "Power BI", "Визуализация данных, готовые отчеты")
+    
+    Container(dwh, "Модернизированное DWH", "Delta Lake/Spark", "Хранение и обработка структурированных данных")
+    
+    Container(med_data, "Сервис медицинских данных", "Java/Python", "Управление медицинскими картами и исследованиями")
+    
+    Container(fintech, "Финтех-сервисы", "Golang/Java", "Банковские операции, счета, кредиты")
+    
+    Container(integration, "Сервис интеграции", "Kafka/API Gateway", "Обмен сообщениями между сервисами")
+    
+    Container(ai, "ИИ-сервисы", "Python", "Анализ медицинских данных, постановка диагнозов")
+    
+    ContainerDb(legacy, "Legacy DWH", "MS SQL 2008", "Временное хранение для миграции данных")
+}
+
+' Связи между контейнерами
+Rel(admin, portal, "Управляет доступом", "HTTPS")
+Rel(doctor, portal, "Просматривает аналитику", "HTTPS")
+Rel(analyst, portal, "Создает отчеты", "HTTPS")
+Rel(patient, portal, "Просматривает свои данные", "HTTPS")
+
+Rel(portal, bi, "Получает отчеты", "API")
+Rel(portal, dwh, "Запрашивает данные", "Spark SQL")
+Rel(portal, fintech, "Запрашивает финансовые данные", "gRPC")
+
+Rel(bi, dwh, "Получает данные для визуализации", "JDBC")
+Rel(dwh, fintech, "Синхронизирует финансовые данные", "Kafka")
+Rel(dwh, med_data, "Получает агрегированные мед.данные", "API")
+Rel(dwh, legacy, "Мигрирует данные", "ETL")
+
+Rel(med_data, ai, "Предоставляет данные для анализа", "gRPC")
+Rel(ai, integration, "Отправляет результаты анализа", "Kafka")
+Rel(fintech, integration, "Публикует финансовые события", "Kafka")
+Rel(integration, dwh, "Доставляет данные в DWH", "Kafka")
+
+' Легаси-связи (временные)
+Rel(legacy, integration, "Временная интеграция", "API")
+Rel(legacy, bi, "Временная связь для отчетов", "ODBC")
+
+@enduml
