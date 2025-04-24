@@ -1,0 +1,60 @@
+@startuml Future_2.0_Roadmap
+left to right direction
+title Roadmap трансформации "Будущее 2.0" (12 месяцев)
+
+skinparam defaultTextAlignment center
+skinparam rectangle {
+    BorderColor #0073e6
+    BackgroundColor #f0f7ff
+    RoundCorner 10
+}
+
+rectangle "T1: Подготовка\n(1-3 месяца)" as phase1 {
+    rectangle "[T1.1] Миграция данных\n• Временное хранилище\n• Команда: 3 инженера + DBA" as task1
+    rectangle "[T1.2] Обучение команд\n• DDD, Spark, Kafka\n• Все технические команды" as task2
+    rectangle "[T1.3] Проектирование\n• Архитекторы + Product Owners" as task3
+}
+
+rectangle "T2: Базис\n(3-6 месяцев)" as phase2 {
+    rectangle "[T2.1] Data Lakehouse\n• Delta Lake/Spark\n• Data Engineering Team (5)" as task4
+    rectangle "[T2.2] Шина данных\n• Kafka + Schema Registry\n• Integration Team (4)" as task5
+    rectangle "[T2.3] Разделение доменов\n• Медицина/Финансы\n• Domain Teams" as task6
+}
+
+rectangle "T3: Оптимизация\n(6-9 месяцев)" as phase3 {
+    rectangle "[T3.1] Портал\n• React/Node.js\n• Frontend Team + Аналитики" as task7
+    rectangle "[T3.2] Обновление BI\n• Power BI Premium\n• BI Team (3)" as task8
+    rectangle "[T3.3] API Gateway\n• Kong/Apigee\n• DevOps Team" as task9
+}
+
+rectangle "T4: Завершение\n(9-12 месяцев)" as phase4 {
+    rectangle "[T4.1] Отказ от legacy\n• Полная миграция\n• Все команды" as task10
+    rectangle "[T4.2] Data Governance\n• DataHub/Collibra\n• Data Office" as task11
+    rectangle "[T4.3] Оптимизация\n• FinOps практики\n• Cloud Team" as task12
+}
+
+' Связи между этапами
+phase1 -[hidden]-> phase2
+phase2 -[hidden]-> phase3
+phase3 -[hidden]-> phase4
+
+' Горизонтальное выравнивание
+task1 -[hidden]-> task4
+task2 -[hidden]-> task5
+task3 -[hidden]-> task6
+
+note bottom of phase1
+<b>T1: Критическая подготовка</b>
+• Создание фундамента для миграции
+• Обучение ключевым технологиям
+• Определение доменных границ
+end note
+
+note bottom of phase4
+<b>T4: Финализация</b>
+• Полный переход на новую архитектуру
+• Внедрение управления данными
+• Оптимизация cloud-затрат
+end note
+
+@enduml
